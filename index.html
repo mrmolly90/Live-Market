@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f0f23" id="metaThemeColor">
+<title>Live Market - World-Live Market</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="authPage" class="page active">
+<div class="shooting-star"></div>
+<div class="shooting-star s2"></div>
+<div class="auth-container">
+<div class="auth-logo">
+<div class="logo-icon">
+<svg class="auth-market-icon" viewBox="0 0 48 48" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+<defs><linearGradient id="lg" x1="0" y1="0" x2="48" y2="48"><stop offset="0%" stop-color="#4a7dff"/><stop offset="100%" stop-color="#9945FF"/></linearGradient></defs>
+<path d="M4 36l10-14 8 6 14-18 8 10v16H4z"/>
+<circle cx="14" cy="22" r="2.5" fill="url(#lg)"/>
+<circle cx="26" cy="14" r="2.5" fill="url(#lg)"/>
+<circle cx="40" cy="20" r="2.5" fill="url(#lg)"/>
+</svg>
+</div>
+<h1>Live Market</h1>
+<p class="auth-subtitle">Welcome to World-Live Market</p>
+</div>
+<div class="auth-tabs">
+<button class="auth-tab active" data-tab="login">Login</button>
+<button class="auth-tab" data-tab="signup">Sign Up</button>
+</div>
+<form id="loginForm" class="auth-form active">
+<div class="input-group"><label>Email</label><input type="email" id="loginEmail" placeholder="your@email.com" required></div>
+<div class="input-group"><label>Password</label><input type="password" id="loginPassword" placeholder="your password" required></div>
+<button type="submit" class="auth-btn primary-btn">Login</button>
+<p class="auth-switch">Don't have an account? <a href="#" id="switchToSignup">Sign up</a></p>
+<p class="auth-switch" style="margin-top:4px;font-size:11px;color:var(--text3)"><a href="#" id="adminLoginLink" style="color:var(--text3);font-weight:400">Admin Access</a> &middot; <a href="#" id="forgotPwdLink" style="color:var(--text3);font-weight:400">Forgot Password?</a></p>
+</form>
+<form id="signupForm" class="auth-form">
+<div class="input-group"><label>Email</label><input type="email" id="signupEmail" placeholder="your@email.com" required></div>
+<div class="input-group"><label>Password</label><input type="password" id="signupPassword" placeholder="Min 6 characters" required minlength="6"></div>
+<div class="input-group"><label>Confirm Password</label><input type="password" id="signupConfirm" placeholder="Confirm password" required minlength="6"></div>
+<button type="submit" class="auth-btn primary-btn">Create Account</button>
+<p class="auth-switch">Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+</form>
+<div id="authError" class="auth-error hidden"></div>
+</div>
+</div>
+
+<div id="loadingPage" class="page">
+<div class="loading-container">
+<div class="loader-ring"><div class="loader-coin">
+<svg class="loader-stock" viewBox="0 0 40 40" fill="none" stroke="#4a7dff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 34l8-12 6 5 10-16 8 10v13H4z"/>
+<circle cx="12" cy="22" r="2" fill="#4a7dff"/>
+<circle cx="22" cy="11" r="2" fill="#4a7dff"/>
+<circle cx="34" cy="17" r="2" fill="#4a7dff"/>
+</svg>
+</div></div>
+<h2 class="loading-title">Loading Your Dashboard</h2>
+<div class="loading-bar"><div class="loading-bar-fill" id="loadingBarFill"></div></div>
+<p class="loading-subtitle" id="loadingStatus">Fetching real-time market data...</p>
+</div>
+</div>
+
+<div id="dashboardPage" class="page">
+<header class="dashboard-header">
+<div class="header-top">
+<div class="header-left"><h2 class="greeting" id="greetingText">Hello, User</h2><p class="header-date" id="currentDate"></p></div>
+<div class="header-right"><div class="live-toggle" id="liveToggle"><div class="connection-dot" id="connectionDot"></div><span class="connection-text" id="connectionText">Live</span><span class="toggle-arrow">&#9660;</span></div><div class="toggle-dropdown hidden" id="toggleDropdown"><div class="toggle-option active" data-mode="on"><span class="toggle-dot on"></span><span>On</span></div><div class="toggle-option" data-mode="off"><span class="toggle-dot off"></span><span>Off</span></div></div></div>
+</div>
+</header>
+
+<main class="dashboard-content">
+
+<div id="homePage" class="tab-content active">
+<div class="portfolio-card" id="portfolioCard">
+<p class="portfolio-label">World Live Market</p>
+<h1 class="portfolio-value" id="portfolioValue">$0.00</h1>
+<div class="portfolio-change" id="portfolioChange"><span class="change-indicator">&#9679;</span><span id="marketStatus">Live 24h</span></div>
+</div>
+<div class="section-header"><h3>Top Cryptocurrencies</h3><span class="update-badge" id="updateBadge">Live</span></div>
+<div class="crypto-list" id="homeCryptoList"></div>
+</div>
+
+<div id="marketPage" class="tab-content">
+<div class="market-search"><input type="text" id="marketSearch" placeholder="Search coins..." autocomplete="off"></div>
+<div class="section-header"><h3>Forex Analytical Board</h3><span class="coin-count" id="coinCount">0 coins</span></div>
+<div class="market-summary-strip">
+<div class="summary-item"><span class="summary-label">BTC Dominance</span><span class="summary-value" id="btcDominance">--%</span></div>
+<div class="summary-item"><span class="summary-label">Total Vol 24H</span><span class="summary-value" id="totalVolume">--</span></div>
+<div class="summary-item"><span class="summary-label">Top Gainer</span><span class="summary-value positive" id="topGainers">--</span></div>
+<div class="summary-item"><span class="summary-label">Top Loser</span><span class="summary-value negative" id="topLosers">--</span></div>
+</div>
+<div class="analytical-board" id="marketCryptoList"></div>
+
+<div class="market-section">
+<div class="section-header"><h3>&#127758; Top 15 Stock Markets by Country</h3><span class="update-badge" id="countryUpdateBadge">Live</span></div>
+<div class="country-stocks-grid" id="countryStocksGrid"></div>
+</div>
+
+<div class="market-section">
+<div class="section-header"><h3>&#128187; Tech Giants Stocks</h3><span class="update-badge" id="techUpdateBadge">Live</span></div>
+<div class="crypto-list" id="techStocksList"></div>
+</div>
+</div>
+
+<div id="notifPage" class="tab-content">
+<div class="section-header"><h3>&#128276; Alerts &amp; Updates</h3><button class="notif-clear-btn" id="notifClearAll">Clear All</button></div>
+<div class="notif-page-list" id="notifPageList">
+<div class="notif-empty-state">
+<div class="notif-empty-icon">&#128276;</div>
+<div class="notif-empty-title">No notifications yet</div>
+<div class="notif-empty-desc">You'll receive market updates, price alerts, and system messages here.</div>
+</div>
+</div>
+</div>
+
+<div id="portfolioPage" class="tab-content">
+<div class="section-header"><h3>&#128188; Wallet & Portfolio</h3><span class="portfolio-balance" id="portfolioBalanceLabel">Balance: <strong id="portfolioBalanceVal">$10,000.00</strong></span></div>
+<div class="portfolio-summary-strip">
+<div class="ps-item"><span class="ps-label">Total Value</span><span class="ps-value" id="psTotalVal">$0.00</span></div>
+<div class="ps-item"><span class="ps-label">P&L Today</span><span class="ps-value" id="psPnl">$0.00</span></div>
+<div class="ps-item"><span class="ps-label">Open Trades</span><span class="ps-value" id="psTrades">0</span></div>
+<div class="ps-item"><span class="ps-label">Win Rate</span><span class="ps-value" id="psWinRate">0%</span></div>
+</div>
+<div class="wallet-actions">
+<button class="wallet-action-btn" id="walletDepositBtn"><span class="wa-icon">&#11014;</span><span class="wa-label">Receive</span></button>
+<button class="wallet-action-btn" id="walletWithdrawBtn"><span class="wa-icon">&#11015;</span><span class="wa-label">Send</span></button>
+<button class="wallet-action-btn" id="walletHistoryBtn"><span class="wa-icon">&#128214;</span><span class="wa-label">History</span></button>
+</div>
+<div class="section-header" style="margin-top:12px"><h3>&#128200; Holdings</h3></div>
+<div class="portfolio-holdings" id="portfolioHoldings">
+<div class="admin-empty">No open positions. Start trading now!</div>
+</div>
+<div class="section-header" style="margin-top:12px"><h3>&#128214; Transaction History</h3></div>
+<div class="portfolio-history" id="portfolioHistory">
+<div class="admin-empty">No transaction history yet.</div>
+</div>
+</div>
+
+<div id="shieldPage" class="tab-content">
+<div id="shieldProxyContainer"></div>
+<div class="shield-account-section" style="margin-top:16px;padding:0 4px">
+<div class="sp-header" style="margin-bottom:12px">
+<div class="sp-shield-icon shield-pulse">&#128737;</div>
+<div class="sp-title">Account Security</div>
+<div class="sp-status-badge sp-secure">AES-256</div>
+</div>
+<div class="sp-stats">
+<div class="sp-stat"><span class="sp-stat-label">Password Protection</span><span class="sp-stat-val sp-green"><span class="sp-dot-pulse"></span> Active</span></div>
+<div class="sp-stat"><span class="sp-stat-label">2FA Authentication</span><span class="sp-stat-val" id="shield2faStatus" style="color:var(--text3)">Not Enabled</span></div>
+<div class="sp-stat"><span class="sp-stat-label">Login Sessions</span><span class="sp-stat-val" style="color:var(--text)">1 Active</span></div>
+<div class="sp-stat"><span class="sp-stat-label">Data Encryption</span><span class="sp-stat-val sp-green">AES-256</span></div>
+</div>
+<button class="profile-action-btn secondary-btn" id="shieldChangePasswordBtn"><span class="action-icon">&#128273;</span><span>Change Password</span></button>
+<div class="sp-security-tips" style="margin-top:12px">
+<div class="spt-title"><span class="spt-title-icon">&#9889;</span> Security Checklist</div>
+<div class="spt-item spt-done spt-anim"><span class="spt-icon">&#9989;</span><span class="spt-text">Strong Password Set</span></div>
+<div class="spt-item spt-anim"><span class="spt-icon">&#9898;</span><span class="spt-text">Two-Factor Authentication</span></div>
+<div class="spt-item spt-done spt-anim"><span class="spt-icon">&#9989;</span><span class="spt-text">Data Encrypted (AES-256)</span></div>
+<div class="spt-item spt-done spt-anim"><span class="spt-icon">&#9989;</span><span class="spt-text">Session Monitoring Active</span></div>
+</div>
+</div>
+</div>
+
+<div id="adminPage" class="tab-content">
+<div id="adminControlPanel">
+<div class="admin-header">
+<div class="admin-header-top">
+<h3>&#128272; Admin Control Panel</h3>
+<span class="admin-badge">SECURE</span>
+</div>
+<p class="admin-subtitle">Manage all registered user accounts</p>
+</div>
+
+<div class="admin-stats-row">
+<div class="admin-stat-card"><span class="admin-stat-label">Total Users</span><span class="admin-stat-value" id="adminTotalUsers">0</span></div>
+<div class="admin-stat-card"><span class="admin-stat-label">Active</span><span class="admin-stat-value" id="adminActiveUsers">0</span></div>
+<div class="admin-stat-card"><span class="admin-stat-label">Blocked</span><span class="admin-stat-value" id="adminBlockedUsers">0</span></div>
+<div class="admin-stat-card"><span class="admin-stat-label">Online</span><span class="admin-stat-value" id="adminOnlineUsers">0</span></div>
+</div>
+
+<div class="admin-search-bar">
+<input type="text" id="adminSearch" placeholder="Search users by email or name..." autocomplete="off">
+</div>
+
+<div class="admin-section">
+<div class="section-header"><h3>&#128100; Registered Users</h3><button class="admin-refresh-btn" id="adminRefreshBtn">&#8635; Refresh</button></div>
+<div class="admin-table-wrap">
+<div id="adminUsersList">
+<div class="admin-empty">No users registered yet</div>
+</div>
+</div>
+</div>
+
+<div class="admin-section">
+<div class="section-header"><h3>&#128214; Activity Log</h3></div>
+<div class="admin-log-list" id="adminLogList">
+<div class="admin-empty">No activity recorded yet</div>
+</div>
+</div>
+
+<div class="admin-section">
+<div class="section-header"><h3>&#9881; Admin Settings</h3></div>
+<div class="admin-settings-card">
+<button class="admin-setting-btn" id="adminChangePwdBtn"><span class="admin-setting-icon">&#128273;</span><span class="admin-setting-text">Change Admin Password</span><span class="admin-setting-arrow">&gt;</span></button>
+<button class="admin-setting-btn" id="adminThemeToggle"><span class="admin-setting-icon" id="adminThemeIcon">&#127769;</span><span class="admin-setting-text" id="adminThemeText">Dark Mode</span><span class="admin-setting-arrow">&gt;</span></button>
+</div>
+</div>
+</div>
+  
+  <div id="profilePage" class="tab-content">
+<div class="profile-card"><div class="profile-avatar"><span id="profileAvatarLetter">U</span></div><h2 class="profile-name" id="profileName">User</h2><p class="profile-email" id="profileEmail">user@email.com</p></div>
+
+<div class="profile-section collapsible">
+<div class="section-header collapse-header" onclick="toggleCollapse(this)">
+<h3>Account Information</h3>
+<span class="collapse-arrow">&#9660;</span>
+</div>
+<div class="collapse-content">
+<div class="profile-info-list">
+<div class="info-item"><span class="info-label">Email</span><span class="info-value" id="accEmail">user@email.com</span></div>
+<div class="info-item"><span class="info-label">Username</span><span class="info-value" id="accUsername">user</span></div>
+<div class="info-item"><span class="info-label">Member Since</span><span class="info-value" id="accMemberSince">Today</span></div>
+<div class="info-item"><span class="info-label">Last Login</span><span class="info-value" id="accLastLogin">Just now</span></div>
+<div class="info-item"><span class="info-label">Account Status</span><span class="info-value status-active">Active</span></div>
+<div class="info-item"><span class="info-label">Account ID</span><span class="info-value" id="accId">--</span></div>
+<div class="info-item"><span class="info-label">Timezone</span><span class="info-value" id="accTimezone">--</span></div>
+</div>
+</div>
+</div>
+
+
+
+<div class="profile-section collapsible">
+<div class="section-header collapse-header" onclick="toggleCollapse(this)">
+<h3>Appearance</h3>
+<span class="collapse-arrow">&#9660;</span>
+</div>
+<div class="collapse-content">
+<div class="theme-toggle-card">
+<p class="theme-desc">Choose your preferred background theme</p>
+<div class="theme-options">
+<button class="theme-option active" id="themeDark"><span class="theme-icon">&#127769;</span><span class="theme-name">Dark Mode</span></button>
+<button class="theme-option" id="themeLight"><span class="theme-icon">&#127774;</span><span class="theme-name">Light Mode</span></button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="profile-section collapsible">
+<div class="section-header collapse-header" onclick="toggleCollapse(this)">
+<h3>Support</h3>
+<span class="collapse-arrow">&#9660;</span>
+</div>
+<div class="collapse-content">
+<div class="support-card" id="emailSupport"><div class="support-icon">&#9993;</div><div class="support-info"><div class="support-title">Email Support</div><div class="support-desc">support@live-market.app</div></div><div class="support-arrow">&gt;</div></div>
+<div class="support-card" id="faqSupport"><div class="support-icon">&#10068;</div><div class="support-info"><div class="support-title">FAQ</div><div class="support-desc">Frequently asked questions</div></div><div class="support-arrow">&gt;</div></div>
+<div class="support-card" id="bugReport"><div class="support-icon">&#128196;</div><div class="support-info"><div class="support-title">Report a Bug</div><div class="support-desc">Report issues to our team</div></div><div class="support-arrow">&gt;</div></div>
+</div>
+</div>
+
+<div class="profile-section collapsible">
+<div class="section-header collapse-header" onclick="toggleCollapse(this)">
+<h3>Terms and Privacy</h3>
+<span class="collapse-arrow">&#9660;</span>
+</div>
+<div class="collapse-content">
+<div class="legal-links">
+<button class="legal-btn" id="termsBtn"><span class="legal-icon">&#128196;</span><span>Terms of Service</span><span class="legal-arrow">&gt;</span></button>
+<button class="legal-btn" id="privacyBtn"><span class="legal-icon">&#128274;</span><span>Privacy Policy</span><span class="legal-arrow">&gt;</span></button>
+<button class="legal-btn" id="cookiesBtn"><span class="legal-icon">&#127850;</span><span>Cookie Policy</span><span class="legal-arrow">&gt;</span></button>
+</div>
+</div>
+</div>
+
+<div class="profile-actions"><button class="profile-action-btn" id="logoutBtn"><span class="action-icon">DOOR</span><span>Logout</span></button></div>
+<div class="admin-profile-badge">
+  <span class="apb-icon">&#128272;</span>
+  <div class="apb-info">
+    <div class="apb-title">Admin Panel</div>
+    <div class="apb-desc">admin@livemarket.app</div>
+  </div>
+  <span class="apb-arrow">&gt;</span>
+</div>
+<div class="profile-footer"><p>Live Market v2.0</p><p>Powered by CoinGecko API</p></div>
+</div>
+
+</main>
+
+<nav class="bottom-nav">
+<button class="nav-btn active" data-tab="homePage">
+  <span class="nav-icon-frame">
+    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+    </svg>
+  </span>
+  <span class="nav-label">Home</span>
+</button>
+<button class="nav-btn" data-tab="marketPage">
+  <span class="nav-icon-frame">
+    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 20h16M6 16V9m4 7V5m4 11v-5m4 5v-2"/>
+    </svg>
+  </span>
+  <span class="nav-label">Market</span>
+</button>
+<button class="nav-btn" data-tab="portfolioPage">
+  <span class="nav-icon-frame">
+    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+  </span>
+  <span class="nav-label">Wallet</span>
+</button>
+<button class="nav-btn" id="navNotif" data-tab="notifPage">
+  <span class="nav-icon-frame">
+    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+      <path d="M13.73 21a2 2 0 01-3.46 0"/>
+    </svg>
+    <span class="nav-notif-badge hidden" id="navNotifBadge">0</span>
+  </span>
+  <span class="nav-label">Alerts</span>
+</button>
+<button class="nav-btn" data-tab="profilePage">
+  <span class="nav-icon-frame">
+    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  </span>
+  <span class="nav-label">Profile</span>
+</button>
+<button class="nav-btn" id="adminNavBtn" data-tab="shieldPage">
+  <span class="nav-icon-frame">
+    <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+  </span>
+  <span class="nav-label">Shield</span>
+</button>
+</nav>
+
+<div id="legalModal" class="modal-overlay hidden"><div class="modal-content"><div class="modal-header"><h3 id="modalTitle">Terms</h3><button class="modal-close" id="modalCloseBtn">X</button></div><div class="modal-body" id="modalBody"></div></div></div>
+<div id="faqModal" class="modal-overlay hidden"><div class="modal-content"><div class="modal-header"><h3>FAQ</h3><button class="modal-close" id="faqCloseBtn">X</button></div><div class="modal-body"><div class="faq-item"><div class="faq-question">How often is data updated?</div><div class="faq-answer">Crypto prices are fetched every 30 seconds from CoinGecko API.</div></div><div class="faq-item"><div class="faq-question">Is my data secure?</div><div class="faq-answer">Credentials encrypted and stored locally in your browser only.</div></div><div class="faq-item"><div class="faq-question">Which coins are tracked?</div><div class="faq-answer">Top 50 by market cap including BTC, ETH, SOL and more.</div></div><div class="faq-item"><div class="faq-question">Is there a fee?</div><div class="faq-answer">No, completely free. Powered by CoinGecko API.</div></div></div></div></div>
+<div id="bugModal" class="modal-overlay hidden"><div class="modal-content"><div class="modal-header"><h3>Report a Bug</h3><button class="modal-close" id="bugCloseBtn">X</button></div><div class="modal-body"><p class="bug-intro">Describe the issue below.</p><textarea id="bugReportText" class="bug-textarea" placeholder="Describe the bug..." rows="5"></textarea><button class="auth-btn primary-btn" id="submitBugBtn">Submit Report</button></div></div></div>
+<div id="passwordModal" class="modal-overlay hidden"><div class="modal-content"><div class="modal-header"><h3>Change Password</h3><button class="modal-close" id="passwordCloseBtn">X</button></div><div class="modal-body"><form id="changePasswordForm"><div class="input-group"><label>Current Password</label><input type="password" id="currentPassword" placeholder="Current password" required></div><div class="input-group"><label>New Password</label><input type="password" id="newPassword" placeholder="Min 6 chars" required minlength="6"></div><div class="input-group"><label>Confirm New Password</label><input type="password" id="confirmNewPassword" placeholder="Confirm" required minlength="6"></div><button type="submit" class="auth-btn primary-btn">Update Password</button></form><div id="passwordError" class="auth-error hidden"></div><div id="passwordSuccess" class="auth-success hidden">Password updated!</div></div></div></div>
+
+<div id="coinModal" class="modal-overlay hidden"><div class="modal-content"><div class="modal-header"><div class="coin-modal-header"><div class="coin-modal-icon" id="coinModalIcon"></div><div><h3 id="coinModalName">Bitcoin</h3><span class="coin-modal-symbol" id="coinModalSymbol">BTC</span></div></div><button class="modal-close" id="coinModalClose">X</button></div><div class="modal-body"><div class="coin-modal-price"><span class="coin-modal-price-val" id="coinModalPrice">$0.00</span><span class="coin-modal-price-chg" id="coinModalChange">+0.00%</span></div><div class="coin-modal-chart" id="coinModalChart"><svg class="sparkline-svg" viewBox="0 0 300 80" preserveAspectRatio="none" id="sparklineSvg"><path id="sparklinePath" d="" fill="none" stroke-width="2"/></svg></div><div class="coin-modal-stats"><div class="cms-row"><span class="cms-label">Market Cap</span><span class="cms-value" id="cmsMcap">--</span></div><div class="cms-row"><span class="cms-label">24h Volume</span><span class="cms-value" id="cmsVol">--</span></div><div class="cms-row"><span class="cms-label">24h High</span><span class="cms-value" id="cmsHigh">--</span></div><div class="cms-row"><span class="cms-label">24h Low</span><span class="cms-value" id="cmsLow">--</span></div><div class="cms-row"><span class="cms-label">Rank</span><span class="cms-value" id="cmsRank">--</span></div><div class="cms-row"><span class="cms-label">All-Time High</span><span class="cms-value" id="cmsAth">--</span></div></div><div class="trade-actions" id="tradeActions"><button class="trade-btn trade-buy" id="tradeBuyBtn">&#9650; Buy</button><button class="trade-btn trade-sell" id="tradeSellBtn">&#9660; Sell</button></div></div></div></div>
+
+<div id="tradeModal" class="modal-overlay hidden"><div class="modal-content trade-modal-content"><div class="modal-header"><h3 id="tradeModalTitle">Buy Bitcoin</h3><button class="modal-close" id="tradeModalClose">X</button></div><div class="modal-body"><div class="trade-modal-price"><span id="tradeModalPrice">$0.00</span><span id="tradeModalBalance">Balance: <strong id="tradeModalBalVal">$10,000</strong></span></div><div class="trade-form"><div class="trade-input-group"><label>Amount (USD)</label><input type="number" id="tradeAmount" placeholder="0.00" min="1" step="1"></div><div class="trade-input-group"><label>Quantity</label><input type="text" id="tradeQuantity" readonly placeholder="0.0000"></div><div class="trade-summary"><div class="ts-row"><span>Price per unit</span><span id="tsPrice">$0.00</span></div><div class="ts-row"><span>Total</span><span id="tsTotal">$0.00</span></div><div class="ts-row"><span>Fee (0.1%)</span><span id="tsFee">$0.00</span></div></div><button class="trade-execute-btn" id="tradeExecuteBtn">Execute Buy Order</button><div id="tradeError" class="auth-error hidden"></div><div id="tradeSuccess" class="auth-success hidden">Order executed successfully!</div></div></div></div></div>
+
+<div id="walletReceiveModal" class="modal-overlay hidden"><div class="modal-content"><div class="modal-header"><h3>&#11014; Receive Funds</h3><button class="modal-close" id="walletReceiveClose">X</button></div><div class="modal-body"><div class="wallet-receive-content"><p class="wr-desc">Select a cryptocurrency to receive funds:</p><div class="wr-coin-list" id="wrCoinList"></div><div class="wr-address-box hidden" id="wrAddressBox"><div class="wr-coin-icon" id="wrCoinIcon">&#128176;</div><div class="wr-coin-title" id="wrCoinTitle">Bitcoin</div><div class="wr-address-label">Your deposit address:</div><div class="wr-address-value" id="wrAddressValue">bc1q...</div><button class="wr-copy-btn" id="wrCopyBtn">&#128203; Copy Address</button><div class="wr-qr-note">Share this address to receive funds. Network confirmations may take a few minutes.</div></div></div></div></div></div>
+
+<div id="walletSendModal" class="modal-overlay hidden"><div class="modal-content"><div class="modal-header"><h3>&#11015; Send Funds</h3><button class="modal-close" id="walletSendClose">X</button></div><div class="modal-body"><div class="wallet-send-content"><div class="ws-input-group"><label>Select Asset</label><select id="wsAssetSelect"><option value="">Choose asset...</option></select></div><div class="ws-input-group"><label>Recipient Address</label><input type="text" id="wsAddressInput" placeholder="Enter wallet address"></div><div class="ws-input-group"><label>Amount</label><input type="number" id="wsAmountInput" placeholder="0.00" min="0.0001" step="any"></div><div class="ws-balance-info">Available: <strong id="wsAvailableBal">0</strong></div><button class="trade-execute-btn" id="wsSendBtn">&#11015; Send</button><div id="wsError" class="auth-error hidden"></div><div id="wsSuccess" class="auth-success hidden">Transaction submitted successfully!</div></div></div></div></div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
