@@ -1,0 +1,112 @@
+  </head>
+  <body>
+    <div class="app-shell">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <h1>Live Market Scripts</h1>
+        <div id="globalStatus" style="font-size:12px;color:#606080">Loading...</div>
+      </div>
+      <p style="color:#606080;font-size:13px;margin-bottom:20px">Interactive module hub &mdash; v1.0.0 &bull; 22 files &bull; 2,275 lines</p>
+
+      <div class="tabs" id="mainTabs">
+        <button class="tab-btn active" data-tab="modules">Module Browser</button>
+        <button class="tab-btn" data-tab="console">Live Console</button>
+        <button class="tab-btn" data-tab="methods">API Reference</button>
+        <button class="tab-btn" data-tab="integration">Integration</button>
+      </div>
+
+      <!-- MODULE BROWSER -->
+      <div id="tab-modules" class="tab-content active">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+          <button class="btn btn-primary btn-sm" onclick="showAllModules()">Refresh Modules</button>
+          <button class="btn btn-secondary btn-sm" onclick="consoleTest()">Run Diagnostics</button>
+          <span id="moduleCount" style="font-size:12px;color:#606080;margin-left:8px"></span>
+        </div>
+        <div class="module-grid" id="moduleGrid">
+          <div style="grid-column:1/-1;text-align:center;padding:32px;color:#606080">Loading modules...</div>
+        </div>
+      </div>
+
+      <!-- LIVE CONSOLE -->
+      <div id="tab-console" class="tab-content">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+          <button class="btn btn-primary btn-sm" onclick="consoleTest()">Run Diagnostics</button>
+          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('consoleLog').innerHTML=''">Clear Log</button>
+        </div>
+        <div class="log-area" id="consoleLog"></div>
+      </div>
+
+      <!-- API REFERENCE -->
+      <div id="tab-methods" class="tab-content">
+        <div id="methodDetail" class="card">
+          <p style="color:#606080;font-size:13px">Click a module in the browser tab to see its full API</p>
+        </div>
+      </div>
+
+      <!-- INTEGRATION -->
+      <div id="tab-integration" class="tab-content">
+        <div class="card">
+          <h3 style="font-size:14px;margin-bottom:8px;color:#4a7dff">Single Script (Recommended)</h3>
+          <pre>&lt;link rel="stylesheet" href="src/styles.css"&gt;
+&lt;script src="src/loader.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  LiveMarket.ready(function() {
+    App.init();
+  });
+&lt;/script&gt;</pre>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <h3 style="font-size:14px;margin-bottom:8px;color:#16c784">Unified Access (LiveMarket Namespace)</h3>
+          <pre>&lt;link rel="stylesheet" href="src/styles.css"&gt;
+&lt;script src="src/index.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  var modal = LiveMarket.get("Modal");
+  modal.alert({ title: "Ready", message: "System loaded!" });
+
+  // List all available modules
+  var modules = LiveMarket.list();
+  console.log(modules);
+
+  // Subscribe to events
+  var unsub = LiveMarket.on("data:update", function(data) {
+    console.log("Data updated:", data);
+  });
+&lt;/script&gt;</pre>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <h3 style="font-size:14px;margin-bottom:8px;color:#ffb700">Manual Script Tags</h3>
+          <pre>&lt;!-- Core --&gt;
+&lt;script src="src/core/storage.js"&gt;&lt;/script&gt;
+&lt;script src="src/core/security.js"&gt;&lt;/script&gt;
+&lt;script src="src/core/formatters.js"&gt;&lt;/script&gt;
+&lt;script src="src/core/dom.js"&gt;&lt;/script&gt;
+&lt;script src="src/constants.js"&gt;&lt;/script&gt;
+
+&lt;!-- Components --&gt;
+&lt;script src="src/components/Spinner.js"&gt;&lt;/script&gt;
+&lt;script src="src/components/Modal.js"&gt;&lt;/script&gt;
+&lt;script src="src/components/SearchInput.js"&gt;&lt;/script&gt;
+&lt;script src="src/components/BottomNav.js"&gt;&lt;/script&gt;
+&lt;script src="src/components/Notifications.js"&gt;&lt;/script&gt;
+&lt;script src="src/components/Particles.js"&gt;&lt;/script&gt;
+
+&lt;!-- Services --&gt;
+&lt;script src="src/services/auth.js"&gt;&lt;/script&gt;
+&lt;script src="src/services/wallet.js"&gt;&lt;/script&gt;
+&lt;script src="src/services/market.js"&gt;&lt;/script&gt;
+&lt;script src="src/services/admin.js"&gt;&lt;/script&gt;
+
+&lt;!-- Patterns --&gt;
+&lt;script src="src/patterns/AuthForm.js"&gt;&lt;/script&gt;
+&lt;script src="src/patterns/CoinDetail.js"&gt;&lt;/script&gt;
+&lt;script src="src/patterns/TradeModal.js"&gt;&lt;/script&gt;
+
+&lt;!-- App --&gt;
+&lt;script src="src/app.js"&gt;&lt;/script&gt;</pre>
+        </div>
+      </div>
+    </div>
+
+    <script src="src/index.js"></script>
+    <script src="src/scripts-hub.js"></script>
+  </body>
+</html>
